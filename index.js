@@ -1,10 +1,9 @@
 const puppeteer = require("puppeteer");
 
 const { solveCaptcha } = require("./captchaHandler");
+const { setLocation } = require('./locationHandler');
 
 (async () => {
-  const ADDRESS = 11001;
-
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
@@ -13,9 +12,7 @@ const { solveCaptcha } = require("./captchaHandler");
 
   await solveCaptcha(page);
 
-  const locationSelector = 'input[data-action-type="SELECT_LOCATION"]';
-  await page.waitForSelector(locationSelector);
-  await page.click(locationSelector);
+  await setLocation(page);
 
   // await browser.close();
 })();
