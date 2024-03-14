@@ -29,7 +29,27 @@ const getTextFromImage = async (imageURL) => {
   return image.data.text;
 };
 
-module.exports = {
-  getTextFromImage,
-  getCaptchaImageURL
+const solveCaptcha = async (page) => {
+  let captchaInputElement;
+
+  do {
+    const imageURL = await getCaptchaImageURL(page);
+    const textImage = await getTextFromImage(imageURL);
+
+    captchaInputElement = await page.$('input#captchacharacters');
+
+    if (captchaInputElement) {
+      await captchaInputElement.type(textImage);
+    } else {
+      return;
+    }
+
+    const continueToShoppingBtn = 'button[type="submit"]';
+    await page.waitForSelector(continueToShoppingBtn);
+    await page.click(continueToShoppingBtn);
+    
+    await new Promise(resolve => setTimeout(resolve, 3000));
+  } while (captchaInputElement);
 };
+
+module.exports = { solveCaptcha };

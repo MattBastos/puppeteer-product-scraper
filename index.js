@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { getCaptchaImageURL, getTextFromImage } = require("./captchaHandler");
+const { solveCaptcha } = require("./captchaHandler");
 
 (async () => {
   const ADDRESS = 11001;
@@ -10,10 +10,7 @@ const { getCaptchaImageURL, getTextFromImage } = require("./captchaHandler");
   page.goto('https://www.amazon.com/');
   await page.setViewport({ width: 1080, height: 1024 });
 
-  const imageURL = await getCaptchaImageURL(page);
-  const textImage = await getTextFromImage(imageURL);
-
-  console.log(textImage);
+  await solveCaptcha(page);
 
   // const changeAddressButton = await page.waitForSelector('span.a-button-inner input[data-action-type="SELECT_LOCATION"]');
   // await page.click(changeAddressButton);
