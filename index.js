@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+
 const { solveCaptcha } = require("./captchaHandler");
 
 (async () => {
@@ -12,10 +13,9 @@ const { solveCaptcha } = require("./captchaHandler");
 
   await solveCaptcha(page);
 
-  // const changeAddressButton = await page.waitForSelector('span.a-button-inner input[data-action-type="SELECT_LOCATION"]');
-  // await page.click(changeAddressButton);
-
-  // const addressInput = await page.waitForSelector('input.GLUX_Full_Width#GLUXZipUpdateInput');
+  const locationSelector = 'input[data-action-type="SELECT_LOCATION"]';
+  await page.waitForSelector(locationSelector);
+  await page.click(locationSelector);
 
   // await browser.close();
 })();

@@ -26,30 +26,32 @@ const getTextFromImage = async (imageURL) => {
   const image = await worker.recognize(imageURL);
   await worker.terminate();
 
-  return image.data.text;
+  return image.data.text.toUpperCase();
 };
 
 const solveCaptcha = async (page) => {
-  let captchaInputElement;
+  let isCaptchaSolved = false;
 
   do {
-    const imageURL = await getCaptchaImageURL(page);
-    const textImage = await getTextFromImage(imageURL);
+    try {
+      console.log('Tentando resolver captcha...');
 
-    captchaInputElement = await page.$('input#captchacharacters');
+      const imageURL = await getCaptchaImageURL(page);
+      const textImage = await getTextFromImage(imageURL);
 
-    if (captchaInputElement) {
-      await captchaInputElement.type(textImage);
-    } else {
-      return;
+      const captchaInputElement = 'input#captchacharacters';
+      await page.type(captchaInputElement, textImage);
+
+      const continueToShoppingBtn = 'button[type="submit"]';
+      await page.waitForSelector(continueToShoppingBtn, { timeout: 5000 });
+      await page.click(continueToShoppingBtn);
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch (error) {
+      isCaptchaSolved = true;
+      console.log('Captcha resolvido com sucesso!');
     }
-
-    const continueToShoppingBtn = 'button[type="submit"]';
-    await page.waitForSelector(continueToShoppingBtn);
-    await page.click(continueToShoppingBtn);
-    
-    await new Promise(resolve => setTimeout(resolve, 3000));
-  } while (captchaInputElement);
+  } while (isCaptchaSolved === false);
 };
 
 module.exports = { solveCaptcha };
