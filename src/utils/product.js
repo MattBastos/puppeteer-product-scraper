@@ -1,22 +1,26 @@
-const { clickOnElement } = require('./clicker');
-
-const getFirstNonSponsoredProduct = async (page) => {
+const selectFirstNonSponsoredProduct = async (page) => {
   console.log('Selecionando produto...');
 
   try {
-    await page.evaluate(async () => {
-      const productElements = document.querySelectorAll('.a-section.a-spacing-base');
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
-      const firstNonSponsoredElement = Array.from(productElements).find(element => {
-        const sponsoredElement = element.querySelector('span.a-color-secondary');
-        return !sponsoredElement || sponsoredElement.textContent.trim() !== 'Sponsored';
-      });
+    await page.waitForSelector('div[data-component-type="s-search-result"]');
+    const searchResultProducts = await page.$$('div[data-component-type="s-search-result"]');
 
-      await clickOnElement(page, firstNonSponsoredElement);
-    });
+    let firstNonSponsoredProduct;
+
+    for (const product of searchResultProducts) {
+      const sponsoredProduct = await product.$('.puis-label-popover.puis-sponsored-label-text');
+      if (!sponsoredProduct) {
+        firstNonSponsoredProduct = product;
+        break;
+      }
+    }
+
+    if (firstNonSponsoredProduct) await firstNonSponsoredProduct.click('img.s-image');
   } catch (error) {
     console.error(error);
   }
 };
 
-module.exports = { getFirstNonSponsoredProduct };
+module.exports = { selectFirstNonSponsoredProduct };
