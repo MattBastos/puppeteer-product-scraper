@@ -1,5 +1,7 @@
 const { createWorker } = require('tesseract.js');
 
+const { clickOnElementWithDelay } = require('./clicker');
+
 const getCaptchaImageURL = async (page) => {
   try {
     await page.waitForSelector('form[method="get"][action="/errors/validateCaptcha"]');
@@ -43,8 +45,7 @@ const solveCaptcha = async (page) => {
       await page.type(captchaInputElement, textImage);
 
       const continueToShoppingBtn = 'button[type="submit"]';
-      await page.waitForSelector(continueToShoppingBtn, { timeout: 5000 });
-      await page.click(continueToShoppingBtn);
+      await clickOnElementWithDelay(page, continueToShoppingBtn, 5000);
 
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (error) {

@@ -13,7 +13,7 @@ const { searchProducts } = require('./utils/searchHandler');
 
   await verifyCaptcha(page);
 
-  await setLocation(page);
+  await setLocation(page, '11001');
 
   await searchProducts(page, 'garlic press');
 
