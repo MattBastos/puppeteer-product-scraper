@@ -1,11 +1,10 @@
 const { clickOnElement, clickOnElementWithEvaluate } = require('./clicker');
+const { typeOnInputWithDelay } = require('./typers');
 
-const setLocation = async (page) => {
+const setLocation = async (page, location) => {
   console.log('Definindo a localização...');
 
   try {
-    const LOCATION = '11001';
-
     await new Promise(resolve => setTimeout(resolve, 5000));
     const openLocationModal = 'span[id="nav-global-location-data-modal-action"]';
     await clickOnElement(page, openLocationModal);
@@ -15,9 +14,7 @@ const setLocation = async (page) => {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
     const locationInput = 'input#GLUXZipUpdateInput';
-    for (const char of LOCATION) {
-      await page.type(locationInput, char, { delay: 200 });
-    }
+    await typeOnInputWithDelay(page, locationInput, location);
 
     const applyButton = 'span[data-action="GLUXPostalUpdateAction"]'
     await clickOnElement(page, applyButton);
