@@ -2,6 +2,7 @@ const puppeteer = require("puppeteer");
 
 const { verifyCaptcha } = require("./utils/captchaHandler");
 const { setLocation } = require('./utils/locationHandler');
+const { searchProducts } = require('./utils/searchHandler');
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -13,6 +14,8 @@ const { setLocation } = require('./utils/locationHandler');
   await verifyCaptcha(page);
 
   await setLocation(page);
+
+  await searchProducts(page, 'garlic press');
 
   // await browser.close();
 })();
