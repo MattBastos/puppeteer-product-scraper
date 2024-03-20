@@ -54,4 +54,14 @@ const solveCaptcha = async (page) => {
   } while (isCaptchaSolved === false);
 };
 
-module.exports = { solveCaptcha };
+const verifyCaptcha = async (page) => {
+  const isCaptchaPresent = await page.$('form[method="get"][action="/errors/validateCaptcha"]');
+
+  if (isCaptchaPresent) {
+    await solveCaptcha(page);
+  } else {
+    console.log('Nenhum captcha encontrado. Continuando...');
+  }
+}
+
+module.exports = { verifyCaptcha };

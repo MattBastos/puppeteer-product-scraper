@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-const { solveCaptcha } = require("./captchaHandler");
+const { verifyCaptcha } = require("./captchaHandler");
 const { setLocation } = require('./locationHandler');
 
 (async () => {
@@ -8,9 +8,9 @@ const { setLocation } = require('./locationHandler');
   const page = await browser.newPage();
 
   page.goto('https://www.amazon.com/');
-  await page.setViewport({ width: 1080, height: 1024 });
+  await page.setViewport({ width: 1624, height: 1080 });
 
-  await solveCaptcha(page);
+  await verifyCaptcha(page);
 
   await setLocation(page);
 
