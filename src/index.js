@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
-const { verifyCaptcha } = require("./captchaHandler");
-const { setLocation } = require('./locationHandler');
+const { verifyCaptcha } = require("./utils/captchaHandler");
+const { setLocation } = require('./utils/locationHandler');
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });

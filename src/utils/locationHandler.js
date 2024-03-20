@@ -4,7 +4,7 @@ const setLocation = async (page) => {
 
     const openLocationModal = 'span[id="nav-global-location-data-modal-action"]';
     await page.waitForSelector(openLocationModal);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
     await page.click(openLocationModal);
 
     const locationModal = 'div#GLUXSpecifyLocationDiv';
