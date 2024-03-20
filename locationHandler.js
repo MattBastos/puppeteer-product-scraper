@@ -4,23 +4,29 @@ const setLocation = async (page) => {
 
     const openLocationModal = 'span[id="nav-global-location-data-modal-action"]';
     await page.waitForSelector(openLocationModal);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     await page.click(openLocationModal);
 
     const locationModal = 'div#GLUXSpecifyLocationDiv';
     await page.waitForSelector(locationModal);
 
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const locationInput = 'input#GLUXZipUpdateInput';
     for (const char of LOCATION) {
-      await page.type(locationInput, char, { delay: 100 });
+      await page.type(locationInput, char, { delay: 200 });
     }
 
     const applyButton = 'span[data-action="GLUXPostalUpdateAction"]'
     await page.waitForSelector(applyButton);
     await page.click(applyButton);
 
-    const confirmButton = 'input#GLUXConfirmClose';
-    await page.waitForSelector(confirmButton);
-    await page.click(confirmButton);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const continueButton = 'span[data-action="GLUXConfirmAction"]';
+    await page.waitForSelector(continueButton);
+    await page.evaluate((selector) => {
+      const button = document.querySelector(selector);
+      if (button) button.click();
+    }, continueButton);
   } catch (error) {
     console.error(error);
   }
