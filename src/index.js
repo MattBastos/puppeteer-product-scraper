@@ -3,6 +3,7 @@ const puppeteer = require("puppeteer");
 const { verifyCaptcha } = require("./utils/captchaHandler");
 const { setLocation } = require('./utils/locationHandler');
 const { searchProducts } = require('./utils/searchHandler');
+const { selectFirstNonSponsoredProduct, printProductData } = require('./utils/product');
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -17,5 +18,9 @@ const { searchProducts } = require('./utils/searchHandler');
 
   await searchProducts(page, 'garlic press');
 
-  // await browser.close();
+  await selectFirstNonSponsoredProduct(page);
+
+  await printProductData(page);
+
+  await browser.close();
 })();
