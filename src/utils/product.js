@@ -89,7 +89,7 @@ const printProductData = async (page) => {
     const title = await getTextFromElement(page, '#productTitle');
     const about = await getTextFromList(page, 'ul.a-unordered-list.a-vertical.a-spacing-mini');
     const price = await getFormattedProductPrice(page);
-    const lastMonthSales = await getTextFromElement(page, '.a-text-italic');
+    const lastMonthSales = await getTextFromElement(page, '#social-proofing-faceout-title-tk_bought');
     const reviewsQuantity = await getTextFromElement(page, '#acrCustomerReviewText');
     const rating = await getFormattedProductRating(page);
   
@@ -97,7 +97,7 @@ const printProductData = async (page) => {
       title,
       about,
       price,
-      lastMonthSales: `${lastMonthSales} in past month`,
+      lastMonthSales,
       reviewsQuantity,
       rating
     };

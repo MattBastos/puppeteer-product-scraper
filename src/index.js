@@ -22,5 +22,5 @@ const { selectFirstNonSponsoredProduct, printProductData } = require('./utils/pr
 
   await printProductData(page);
 
-  await browser.close();
+  // await browser.close();
 })();
