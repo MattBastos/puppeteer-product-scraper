@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const { verifyCaptcha } = require("./utils/captchaHandler");
 const { setLocation } = require('./utils/locationHandler');
 const { searchProducts } = require('./utils/searchHandler');
-const { selectFirstNonSponsoredProduct } = require('./utils/product');
+const { selectFirstNonSponsoredProduct, printProductData } = require('./utils/product');
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -20,5 +20,7 @@ const { selectFirstNonSponsoredProduct } = require('./utils/product');
 
   await selectFirstNonSponsoredProduct(page);
 
-  // await browser.close();
+  await printProductData(page);
+
+  await browser.close();
 })();
