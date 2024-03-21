@@ -84,6 +84,8 @@ const getFormattedProductRating = async (page) => {
 
 const printProductData = async (page) => {
   try {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     const title = await getTextFromElement(page, '#productTitle');
     const about = await getTextFromList(page, 'ul.a-unordered-list.a-vertical.a-spacing-mini');
     const price = await getFormattedProductPrice(page);
